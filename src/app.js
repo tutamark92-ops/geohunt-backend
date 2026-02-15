@@ -87,9 +87,14 @@ app.get('/api/health', (req, res) => {
 // Global error handler — must be last middleware
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
+// Export the app for serverless use (Netlify Functions)
+module.exports = app;
 
-app.listen(PORT, () => {
-    console.log(`🗺️  GeoHunt API running on port ${PORT}`);
-    console.log(`📍 Environment: ${process.env.NODE_ENV}`);
-});
+// Only start listening when run directly (not imported by serverless wrapper)
+if (require.main === module) {
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => {
+        console.log(`🗺️  GeoHunt API running on port ${PORT}`);
+        console.log(`📍 Environment: ${process.env.NODE_ENV}`);
+    });
+}
