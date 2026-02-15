@@ -9,7 +9,7 @@
  *   - Global error handling
  */
 
-require('dotenv').config();
+try { require('dotenv').config(); } catch (e) { /* dotenv not needed on Netlify — env vars injected automatically */ }
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
